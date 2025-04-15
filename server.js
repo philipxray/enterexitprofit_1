@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGO_URI);
 
 console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User'); // Import the User model
 const rateLimit = require('express-rate-limit');
