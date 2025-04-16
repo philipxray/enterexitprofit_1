@@ -1,116 +1,78 @@
 // filepath: /Users/dad/entrerexitprofit_1/server.js
 const express = require('express');
 require('dotenv').config();
-console.log('MONGO_URI:', process.env.MONGO_URI);
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const User = require('./models/User'); // Import the User model
+const userRoutes = require('./routes/userRoutes'); // Adjust the path if needed
+const registerRoutes = require('./routes/registerRoutes'); // Adjust the path if needed
 
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
+console.log('MONGO_URI:', process.env.MONGO_URI);
+
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('Failed to connect to MongoDB:', err));
 
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('./models/User'); // Import the User model
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
-const Redis = require('ioredis');
-const redisClient = new Redis();
-
-// Helper function to blacklist a token
+// Simulate token blacklisting without Redis
 const blacklistToken = async (token, expirationTime) => {
-    await redisClient.set(token, 'blacklisted', 'EX', expirationTime);
+    console.log('Blacklisting token:', token);
+    // No actual blacklisting since Redis is disabled
 };
 
-// Middleware to check if a token is blacklisted
 const isTokenBlacklisted = async (token) => {
-    const result = await redisClient.get(token);
-    return result === 'blacklisted';
+    console.log('Checking if token is blacklisted:', token);
+    return false; // Always return false since Redis is disabled
 };
 
 const app = express();
+
+// Apply middleware
 app.use(express.json());
 app.use(helmet());
-
-// Apply rate limiting to all requests
-const limiter = rateLimit({
+app.use(rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // Limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again later.',
-});
+}));
 
-app.use(limiter);
+// Define routes
+app.use('/register', registerRoutes);
+app.use('/', userRoutes);
 
-// Define your routes here
+// Root route
 app.get('/', (req, res) => {
     res.send('Backend server is running!');
 });
 
-app.post('/register', async (req, res) => {
-    const { username, password, role } = req.body;
-
-    console.log('Incoming registration request:', { username, password, role });
-
-    if (!username || !password) {
-        console.log('Missing username or password');
-        return res.status(400).json({ message: 'Username and password are required' });
-    }
-
-    try {
-        const existingUser = await User.findOne({ username });
-        console.log('Existing user check:', existingUser);
-
-        if (existingUser) {
-            console.log('User already exists');
-            return res.status(400).json({ message: 'User already exists' });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ username, password: hashedPassword, role });
-        await newUser.save();
-
-        console.log('New user saved:', newUser);
-        res.status(201).json({ message: 'User registered successfully' });
-    } catch (err) {
-        console.error('Error during registration:', err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
+// Login route
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    console.log('Incoming login request:', { username, password });
-
     if (!username || !password) {
-        console.log('Missing username or password');
         return res.status(400).json({ message: 'Username and password are required' });
     }
 
     try {
         const user = await User.findOne({ username });
-        console.log('User found:', user);
-
         if (!user) {
-            console.log('Invalid username');
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        console.log('Password valid:', isPasswordValid);
-
         if (!isPasswordValid) {
-            console.log('Invalid password');
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
         const token = jwt.sign(
-            { username: user.username, role: user.role }, // Include role in the payload
+            { username: user.username, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
-        console.log('Generated token:', token);
 
         res.status(200).json({ message: 'Login successful', token });
     } catch (err) {
@@ -119,60 +81,37 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post('/reset-password', async (req, res) => {
-    const { username, newPassword } = req.body;
-
-    console.log('Incoming password reset request:', { username, newPassword });
-
-    if (!username || !newPassword) {
-        console.log('Missing username or new password');
-        return res.status(400).json({ message: 'Username and new password are required' });
-    }
-
-    try {
-        const user = await User.findOne({ username });
-        console.log('User found for password reset:', user);
-
-        if (!user) {
-            console.log('User not found');
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedPassword;
-        await user.save();
-
-        console.log('Password updated for user:', username);
-        res.status(200).json({ message: 'Password reset successful' });
-    } catch (err) {
-        console.error('Error during password reset:', err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
+// Middleware to authenticate token
 const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
+    console.log('Authorization header:', authHeader);
+    console.log('Extracted token:', token);
+
     if (!token) {
+        console.log('No token provided');
         return res.status(401).json({ message: 'Access denied. No token provided.' });
     }
 
-    // Check if the token is blacklisted
     if (await isTokenBlacklisted(token)) {
+        console.log('Token is blacklisted');
         return res.status(403).json({ message: 'Token is blacklisted' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
+            console.log('Invalid token:', err.message);
             return res.status(403).json({ message: 'Invalid token' });
         }
 
-        req.user = user; // user now includes username and role
+        console.log('Token verified successfully:', user);
+        req.user = user;
         next();
     });
 };
 
+// Middleware to authorize roles
 const authorizeRole = (requiredRole) => {
     return (req, res, next) => {
         if (req.user.role !== requiredRole) {
@@ -182,15 +121,60 @@ const authorizeRole = (requiredRole) => {
     };
 };
 
+// Protected route
 app.get('/protected', authenticateToken, (req, res) => {
-    console.log('Accessing /protected route');
-    res.status(200).json({ message: 'Access granted to protected route' });
+    res.json({ message: 'Access granted to protected route' });
 });
 
+// Admin route
 app.get('/admin', authenticateToken, authorizeRole('admin'), (req, res) => {
     res.status(200).json({ message: 'Welcome, Admin!' });
 });
 
+// Profile route to get user details
+app.get('/profile', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.user.username }).select('-password'); // Exclude the password
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(user);
+    } catch (err) {
+        console.error('Error fetching profile:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// Profile route to update user details
+app.put('/profile', authenticateToken, async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const user = await User.findOne({ username: req.user.username });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update username if provided
+        if (username) {
+            user.username = username;
+        }
+
+        // Update password if provided
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            user.password = hashedPassword;
+        }
+
+        await user.save();
+        res.status(200).json({ message: 'Profile updated successfully' });
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// Logout route
 app.post('/logout', async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -201,10 +185,9 @@ app.post('/logout', async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const expirationTime = decoded.exp - Math.floor(Date.now() / 1000); // Calculate remaining time
+        const expirationTime = decoded.exp - Math.floor(Date.now() / 1000);
         await blacklistToken(token, expirationTime);
 
-        console.log('Token blacklisted:', token);
         res.status(200).json({ message: 'Logout successful' });
     } catch (err) {
         console.error('Error during logout:', err);
@@ -212,8 +195,8 @@ app.post('/logout', async (req, res) => {
     }
 });
 
-// Export the app and redisClient for testing
-module.exports = { app, redisClient };
+// Export the app for testing
+module.exports = { app };
 
 // Start the server only if this file is run directly
 if (require.main === module) {
