@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Signalers Page",
+            "file": "${workspaceFolder}/marketplace-prototype/signalers.html",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}
