@@ -277,7 +277,7 @@ header {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
-    background-color: #4A90E2; /* Polymarket blue */
+    background-color: hsl(64, 94%, 55%); /* Polymarket blue */
     color: white;
     border: none;
     border-radius: 5px;
