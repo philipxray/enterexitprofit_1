@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Documentation</title>
+    <link rel="stylesheet" href="style.css"> <!-- Optional: Link to your existing CSS file -->
+    <style>
+        /* Inline styles for documentation-specific formatting */
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .sidebar ul li a:hover {
+            color: #007bff;
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        h1, h2, h3 {
+            color: #007bff;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#file-location">File Location</a></li>
+            <li><a href="#html-structure">HTML Structure</a></li>
+            <li><a href="#css-styling">CSS Styling</a></li>
+            <li><a href="#chart-styling">Chart Styling</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#javascript-elements">Javascript Elements</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Header -->
+        <header>
+            <h1>Project Documentation</h1>
+        </header>
+
+        <!-- Content -->
+         <br>
+        <br>
+        <h1>Documentation: Editing the View Posts Page</h1>
+        <p>This document provides instructions on how to edit the HTML and CSS of the <code>view-posts.html</code> page in your project.</p>
+
+        <h2 id="overview">Overview</h2>
+        <p>This project is a marketplace prototype designed to display stock option chains and detailed option contract data, including implied volatility and other metrics. Below is an overview of the technologies and APIs used in this project:</p>
+        <ul>
+            <li><strong>Programming Languages:</strong> The project is built using <code>HTML</code>, <code>CSS</code>, and <code>JavaScript</code>.</li>
+            <li><strong>Frontend Frameworks:</strong> The project uses <code>amCharts</code> for data visualization, specifically for creating gauge charts and other visual elements.</li>
+            <li><strong>APIs:</strong> The project integrates with the <a href="https://finnhub.io/" target="_blank">Finnhub API</a> to fetch stock option chain data and other financial metrics.</li>
+            <li><strong>Dynamic Content:</strong> JavaScript is used to dynamically populate the page with data fetched from the API, such as option details, implied volatility, and call/put volumes.</li>
+            <li><strong>Responsive Design:</strong> The project is styled to be responsive and user-friendly across different screen sizes.</li>
+        </ul>
+        <p>For more details on specific sections of the project, refer to the table of contents in the sidebar.</p>
+
+        <h2 id="file-location">File Location</h2>
+        <p>The <code>view-posts.html</code> file is located in the following directory:</p>
+        <pre>/Users/dad/entrerexitprofit_1/marketplace-prototype/view-posts.html</pre>
+
+        <h2 id="html-structure">HTML Structure</h2>
+        <h3>1. Header Section</h3>
+        <p>The header contains the page title and an "Add Post" button:</p>
+        <pre>
+&lt;header&gt;
+    &lt;a href="index.html" class="logo"&gt;View Posts&lt;/a&gt;
+    &lt;button id="addPostButton" class="hidden"&gt;Add Post&lt;/button&gt;
+&lt;/header&gt;
+        </pre>
+        <p><strong>To Edit:</strong></p>
+        <ul>
+            <li>Change the text inside the <code>&lt;a&gt;</code> tag to update the page title.</li>
+            <li>Modify the <code>href</code> attribute to link to a different page.</li>
+            <li>Update the "Add Post" button text by changing the content inside the <code>&lt;button&gt;</code> tag.</li>
+        </ul>
+
+        <h3>2. Main Section</h3>
+        <p>The main section contains:</p>
+        <ul>
+            <li>A filter form for filtering posts.</li>
+            <li>A container for displaying posts.</li>
+            <li>A "Load More" button.</li>
+        </ul>
+
+        <h4>Filter Section</h4>
+        <pre>
+&lt;div class="filter-container"&gt;
+    &lt;input type="text" id="filterTicker" placeholder="Filter by Ticker (e.g., AAPL)" /&gt;
+    &lt;input type="date" id="filterDate" placeholder="Filter by Date" /&gt;
+    &lt;button id="applyFilters"&gt;Apply Filters&lt;/button&gt;
+    &lt;button id="clearFilters"&gt;Clear Filters&lt;/button&gt;
+&lt;/div&gt;
+        </pre>
+        <p><strong>To Edit:</strong></p>
+        <ul>
+            <li>Update the <code>placeholder</code> attributes of the <code>&lt;input&gt;</code> fields to change the filter hints.</li>
+            <li>Change the text inside the <code>&lt;button&gt;</code> tags to rename the buttons.</li>
+        </ul>
+
+        <h4>Posts List</h4>
+        <pre>
+&lt;div id="postsList"&gt;&lt;/div&gt;
+        </pre>
+        <p><strong>To Edit:</strong> This section is dynamically populated by JavaScript. To modify the structure of each post, edit the <code>postElement</code> template in the <code>fetchPosts</code> function in <code>firebase.js</code>.</p>
+
+        <h4>Load More Button</h4>
+        <pre>
+&lt;button id="loadMoreButton"&gt;Load More&lt;/button&gt;
+        </pre>
+        <p><strong>To Edit:</strong> Change the text inside the <code>&lt;button&gt;</code> tag to rename the button.</p>
+
+        <h2 id="css-styling">CSS Styling</h2>
+        <h3>1. Add Post Button</h3>
+        <pre>
+#addPostButton {
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+
+#addPostButton.hidden {
+    display: none;
+}
+
+#addPostButton:hover {
+    background-color: #0056b3;
+}
+        </pre>
+        <p><strong>To Edit:</strong></p>
+        <ul>
+            <li>Change the <code>background-color</code> property to update the button color.</li>
+            <li>Modify the <code>font-size</code>, <code>padding</code>, or <code>border-radius</code> to adjust the button's size and shape.</li>
+        </ul>
+
+        <h3>2. Filter Section</h3>
+        <pre>
+.filter-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.filter-container input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-container button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filter-container button:hover {
+    background-color: #0056b3;
+}
+        </pre>
+        <p><strong>To Edit:</strong></p>
+        <ul>
+            <li>Change the <code>background-color</code> of the <code>.filter-container</code> to update the filter section's background.</li>
+            <li>Modify the <code>padding</code> or <code>border-radius</code> of the <code>&lt;input&gt;</code> and <code>&lt;button&gt;</code> elements to adjust their size and shape.</li>
+        </ul>
+
+        <section id="chart-styling">
+            <h2>Chart Styling</h2> 
+            
+            <ul>
+                <li><strong>Chart Dimensions:</strong> The chart dimensions can be controlled using the `#chartdiv` CSS selector.</li>
+                <li><strong>Color Bands:</strong> The color bands for the gauge chart are defined in the `bandsData` array in the JavaScript code.</li>
+                <li><strong>Font Size:</strong> The font size for the central label can be adjusted in the `am5.Label` configuration.</li>
+                <li><strong>Animation:</strong> The chart animations can be controlled using the `chart.appear()` method.</li>
+            </ul>
+            <p>For more advanced customization, refer to the <a href="https://www.amcharts.com/docs/v5/" target="_blank">amCharts documentation</a>.</p>
+        </section>
+<section id="chart-styling">
+    <p> For gauge on <code>option-details.html</code></p>
+    <p>The implied volatility gauge chart (located on the <code>options-details.html</code> page) is created using <a href="https://www.amcharts.com/" target="_blank">amCharts</a>. Below are the key styling options you can customize:</p>
+    <ul>
+        <li><strong>Clock Hand Size:</strong> The size of the clock hand can be adjusted using the following properties in the `am5radar.ClockHand` configuration:
+            <pre><code>
+var clockHand = am5radar.ClockHand.new(root, {
+    pinRadius: am5.percent(15), // Size of the pin at the center
+    radius: am5.percent(80),    // Length of the clock hand
+    bottomWidth: 20,            // Width of the clock hand's base
+});
+            </code></pre>
+        </li>
+        <li><strong>Number Size:</strong> The size of the number displayed on the clock hand can be adjusted using the `fontSize` property in the `am5.Label` configuration:
+            <pre><code>
+var label = chart.radarContainer.children.push(
+    am5.Label.new(root, {
+        fill: am5.color(0xffffff),
+        centerX: am5.percent(50),
+        textAlign: "center",
+        centerY: am5.percent(50),
+        fontSize: "4em", // Adjust the size of the number here
+    })
+);
+            </code></pre>
+        </li>
+        <li><strong>Color Bands:</strong> The color bands for the gauge chart are defined in the `bandsData` array in the JavaScript code. Each band has a title, color, and range:
+            <pre><code>
+var bandsData = [
+    { title: "Low", color: "#54b947", lowScore: 0, highScore: 33 },
+    { title: "Medium", color: "#fdae19", lowScore: 33, highScore: 66 },
+    { title: "High", color: "#ee1f25", lowScore: 66, highScore: 100 },
+];
+            </code></pre>
+        </li>
+        <li><strong>Animation:</strong> The chart animations can be controlled using the `chart.appear()` method:
+            <pre><code>
+chart.appear(1000, 100);
+            </code></pre>
+        </li>
+    </ul>
+    <p>For more advanced customization, refer to the <a href="https://www.amcharts.com/docs/v5/" target="_blank">amCharts documentation</a>.</p>
+</section>
+<section id="javascript-elements">
+    <h2>JavaScript Elements</h2>
+</section>   
+        <h2 id="best-practices">Best Practices</h2>
+        <ul>
+            <li><strong>Backup Files:</strong> Always create a backup of the <code>view-posts.html</code> and <code>style.css</code> files before making changes.</li>
+            <li><strong>Test Changes:</strong> Test your changes in a browser to ensure they work as expected.</li>
+            <li><strong>Use Comments:</strong> Add comments to your code to explain any significant changes or additions.</li>
+        </ul>
+                 
+    </div>
+</body>
+</html>

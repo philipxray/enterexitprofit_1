@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Alerts</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Buttons container */
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        /* Buy Button */
+        .buy-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Sell Button */
+        .sell-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sell-button:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <h1 class="header-title">Trade Alerts</h1>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="test-section">
+            <h2 class="section-title">Post</h2>
+            <div class="post">
+                <h3>Ticker: AAPL</h3>
+                <div class="buttons">
+                    <!-- Buy Button -->
+                    <button class="buy-button">Buy</button>
+                    <!-- Sell Button -->
+                    <button class="sell-button">Sell</button>
+                </div>
+                <p><strong>Entry Price:</strong> $150</p>
+                <p><strong>Exit Price:</strong> $160</p>
+                <p><strong>Date:</strong> 2025-04-18</p>
+                <p><strong>Notes:</strong> This is a sample trade alert.</p>
+                <a href="post-details.html?id=123">View Details</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-text">Trade Alerts Platform</p>
+        </div>
+    </footer>
+
+    <script src="view-post.js"></script>
+</body>
+</html>

@@ -1,6 +1,4 @@
-//ALL CODE BELOW IS TO REFACTORED INTO OTHER FILES AND FOLDERS
-//IT IS SCRIPT THAT NEED TO BE INTERGRATED INTO THEIR RESPECTIVE FILES
-// // Attach event listener for post type selection
+// Attach event listener for post type selection
 // Dynamically loads a form based on the selected post type (e.g., EEP).
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM fully loaded and parsed");
@@ -410,5 +408,21 @@ document.addEventListener("click", (e) => {
         alert(`Buy button clicked for post ID: ${postId}`);
         // Add your "Buy" logic here
     }
-    
+
+    // Handle "Edit" button click
+    if (e.target.classList.contains("edit-button")) {
+        const postId = e.target.getAttribute("data-id");
+        console.log(`Edit button clicked for post ID: ${postId}`);
+        // Redirect to an edit page or open an edit form
+        window.location.href = `edit-post.html?id=${postId}`;
+    }
+
+    // Handle "Delete" button click
+    if (e.target.classList.contains("delete-button")) {
+        const postId = e.target.getAttribute("data-id");
+        console.log(`Delete button clicked for post ID: ${postId}`);
+        if (confirm("Are you sure you want to delete this post?")) {
+            deletePost(postId);
+        }
+    }
 });

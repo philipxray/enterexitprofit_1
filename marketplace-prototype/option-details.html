@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option Details</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="option-details.js" defer></script>
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="option-chain.html" class="logo">Back to Option Chain</a>
+    </header>
+    <main>
+        <div class="option-details-container">
+            <h2>Option Details</h2>
+            <div id="optionDetails">
+                <!-- Option details will be dynamically populated here -->
+            </div>
+            <div class="gauge-container">
+                <h3>Implied Volatility</h3>
+                <div id="chartdiv"></div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

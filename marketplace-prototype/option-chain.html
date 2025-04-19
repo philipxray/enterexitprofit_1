@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option Chain</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your existing CSS file -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="firebase.js" defer></script>
+    <script src="auth.js" defer></script>
+    <script src="option-chain.js" defer></script> <!-- New JavaScript file for option chain functionality -->
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Option Chain</a>
+        <button id="addPostButton" class="hidden">Add Post</button>
+    </header>
+    <main>
+        <div class="option-chain-container">
+            <h2>Stock Option Chain</h2>
+            <div class="search-bar">
+                <input type="text" id="stockSymbol" placeholder="Enter Stock Symbol (e.g., AAPL)" />
+                <button id="fetchOptions">Search</button>
+            </div>
+            <div id="optionChainTable" class="option-chain-table">
+                <!-- Option chain data will be dynamically populated here -->
+            </div>
+        </div>
+    </main>
+</body>
+</html>

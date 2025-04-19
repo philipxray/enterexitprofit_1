@@ -12,6 +12,7 @@
     <!-- Your Firebase and Auth scripts -->
     <script src="firebase.js" defer></script>
     <script src="auth.js" defer></script>
+    <script src="post-details.js" defer></script>
 </head>
 <body>
     <header>
@@ -20,7 +21,27 @@
     <main>
         <div class="post-details-container">
             <h2>Post Details</h2>
-            <div id="postDetails"></div>
+            <!-- Display post details -->
+            <div>
+                <strong>Ticker:</strong>
+                <span id="postTicker"></span> <!-- Ensure this element exists -->
+            </div>
+            <div>
+                <strong>Entry Price:</strong>
+                <p id="postEntryPrice"></p>
+            </div>
+            <div>
+                <strong>Exit Price:</strong>
+                <p id="postExitPrice"></p>
+            </div>
+            <div>
+                <strong>Date:</strong>
+                <p id="postDate"></p>
+            </div>
+            <div>
+                <strong>Notes:</strong>
+                <p id="postNotes"></p>
+            </div>
         </div>
     </main>
 </body>

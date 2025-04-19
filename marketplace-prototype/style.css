@@ -6,11 +6,11 @@
 
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #1d2b38; /* Polymarket dark blue-gray */
-    color: #FFFFFF; /* White text */
+    background-color: #ffffff; /* White background */
+    color: #333; /* Dark text */
 }
 
 /* Header */
@@ -24,50 +24,67 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Logo */
-.logo {
+header a.logo {
     font-size: 1.5rem;
     font-weight: bold;
     color: #FFFFFF; /* White text */
     text-decoration: none;
 }
 
+header a.logo:hover {
+    text-decoration: underline;
+}
+
+/* Add Post Button */
+#addPostButton {
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: #007bff; /* Matches other buttons */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+
+#addPostButton.hidden {
+    display: none;
+}
+
+#addPostButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
 /* Search Bar */
 .search-bar {
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: #121212; /* Darker gray */
-    border: 1px solid #333;
-    border-radius: 7px;
-    padding: 0.5rem;
-    width: 300px;
-    margin: 1rem auto; /* Center the search bar */
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .search-bar input {
-    background: none;
-    border: none;
-    outline: none;
-    color: #FFFFFF; /* White text */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     font-size: 1rem;
-    flex: 1;
+    width: 300px;
 }
 
 .search-bar button {
-    background-color: #4A90E2; /* Polymarket blue */
+    padding: 10px 15px;
     border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Blue button */
     color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 7px;
-    cursor: pointer;
     font-size: 1rem;
-    font-weight: 500;
+    cursor: pointer;
 }
 
 .search-bar button:hover {
-    background-color: #357ABD; /* Slightly darker blue */
-    opacity: 0.9;
+    background-color: #0056b3; /* Darker blue */
 }
 
 /* Menu */
@@ -109,7 +126,7 @@ header {
 }
 
 .user-profile-card {
-    background-color: #2c3f4e; /* Slightly darker than page background */
+    background-color: #ffffff; /* Slightly darker than page background */
     border-radius: 7px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     padding: 1.5rem;
@@ -192,36 +209,32 @@ header {
     background-color: rgba(255, 255, 255, 0.4); /* Same hover effect as user-profile-card */
 }
 
-/* Posts Container */
+/* Main Content */
+main {
+    padding: 20px;
+}
+
 .posts-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
 
-.post {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: hsla(273, 96%, 54%, 0.758);
+.posts-container h2 {
+    text-align: center;
+    color: #4A90E2; /* Polymarket blue */
 }
 
-.post h3 {
-    margin: 0 0 10px;
-}
-
-.post p {
-    margin: 5px 0;
-}
-
-/* Filter Container */
+/* Filter Section */
 .filter-container {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    background-color: #2c3f4e; /* Slightly darker than page background */
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .filter-container input {
@@ -230,6 +243,12 @@ header {
     border-radius: 5px;
     font-size: 1rem;
     width: 200px;
+    background-color: #1d2b39; /* Match header background */
+    color: white;
+}
+
+.filter-container input::placeholder {
+    color: #ccc; /* Light gray placeholder text */
 }
 
 .filter-container button {
@@ -244,6 +263,44 @@ header {
 
 .filter-container button:hover {
     background-color: #357ABD; /* Slightly darker blue */
+}
+
+/* Posts List */
+.posts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.post {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: hsla(0, 0%, 100%, 0.758); /* Purple tint */
+    box-shadow: 0 2px 5px #ffffffab;
+}
+
+.post h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #4A90E2; /* Polymarket blue */
+}
+
+.post p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #000000; /* White text */
+}
+
+.post a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #4A90E2; /* Polymarket blue */
+    text-decoration: none;
+}
+
+.post a:hover {
+    text-decoration: underline;
 }
 
 /* Buy Button */
@@ -277,7 +334,7 @@ header {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
-    background-color: hsl(64, 94%, 55%); /* Polymarket blue */
+    background-color: hsl(212, 72%, 59%); /* Polymarket blue */
     color: white;
     border: none;
     border-radius: 5px;
@@ -287,4 +344,128 @@ header {
 
 #loadMoreButton:hover {
     background-color: #357ABD; /* Slightly darker blue */
+}
+
+/* Option Chain Page Styles */
+.option-chain-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background for the container */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.option-chain-container h2 {
+    text-align: center;
+    color: #007bff; /* Blue heading */
+    margin-bottom: 20px;
+}
+
+.option-chain-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.option-chain-table th,
+.option-chain-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.option-chain-table th {
+    background-color: #f8f9fa; /* Light gray background for headers */
+    color: #333;
+    font-weight: bold;
+}
+
+.option-chain-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row background */
+}
+
+.option-chain-table tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+.option-chain-table a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.option-chain-table a:hover {
+    text-decoration: underline;
+}
+
+/* Option Details Page Styles */
+.option-details-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.option-details-container h2 {
+    text-align: center;
+    color: #007bff; /* Blue heading */
+    margin-bottom: 20px;
+}
+
+#optionDetails p {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Gauge Container */
+.gauge-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.gauge-container h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Icons */
+.icons {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.icon {
+    text-align: center;
+}
+
+.animated-icon {
+    width: 10px;
+    height: 10px;
+    transition: transform 0.3s ease;
+}
+
+.animated-icon:hover {
+    transform: scale(1.2) rotate(10deg);
+}
+
+/* Chart Controls */
+#chartcontrols {
+    height: auto;
+    padding: 5px;
+    max-width: 100%;
+}
+
+/* Chart Div */
+#chartdiv {
+    width: 100%;
+    height: 600px;
+    max-width: 100%;
+    align-items: center;
 }

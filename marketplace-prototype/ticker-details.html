@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticker Details</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #chartcontrols {
+            height: auto;
+            padding: 5px 5px 0 16px;
+            max-width: 100%;
+        }
+
+        #chartdiv {
+            width: 100%;
+            height: 600px;
+            max-width: 100%;
+        }
+
+        #volumeChartControls {
+            height: auto;
+            padding: 5px 5px 0 16px;
+            max-width: 100%;
+        }
+
+        #volumeChartDiv {
+            width: 100%;
+            height: 600px;
+            max-width: 100%;
+        }
+    </style>
+    <!-- amCharts CDN -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/stock.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+</head>
+<body>
+    <header>
+        <a href="post-details.html" class="logo">Back to Post Details</a>
+    </header>
+    <main>
+        <h2>Ticker Details</h2>
+        <div id="tickerDetailsContainer">
+            <!-- Ticker details will be dynamically loaded here -->
+        </div>
+
+        <!-- First Chart -->
+        <h3>Stock Chart</h3>
+        <div id="chartcontrols" style="margin-bottom: 10px;"></div>
+        <div id="chartdiv" style="width: 80%; height: 400px;"></div>
+
+        <!-- Second Chart -->
+        <h3>Volume Chart</h3>
+        <div id="volumeChartControls" style="margin-bottom: 10px;"></div>
+        <div id="volumeChartDiv" style="width: 80%; height: 400px;"></div>
+    </main>
+    <script src="ticker-details.js" defer></script>
+</body>
+</html>

@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a Post</title>
+    <title>Create Post</title>
     <link rel="stylesheet" href="style.css">
     <!-- Firebase CDN -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    <!-- Your Firebase and Auth scripts -->
-    <script src="firebase.js" defer></script>
+    <script src="create-post.js" defer></script>
     <script src="auth.js" defer></script>
 </head>
 <body>
@@ -18,38 +17,47 @@
         <a href="index.html" class="logo">Create a Post</a>
     </header>
     <main>
-        <div class="post-container">
-            <h2>Select Post Type</h2>
-            <select id="postTypeSelector">
-                <option value="" disabled selected>Select a post type</option>
-                <option value="eep">EEP (Entry and Exit Points)</option>
-                <!-- Add more post types here -->
-            </select>
-            <div id="postFormContainer"></div>
-        </div>
+        <h1>Create a New Post</h1>
+        <form id="postForm" onsubmit="handlePostFormSubmit(event)">
+            <label for="ticker">Ticker:</label>
+            <input type="text" id="ticker" name="ticker" required><br>
+
+            <label for="entryPrice">Entry Price:</label>
+            <input type="number" id="entryPrice" name="entryPrice" required><br>
+
+            <label for="exitPrice">Exit Price:</label>
+            <input type="number" id="exitPrice" name="exitPrice" required><br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br>
+
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes"></textarea><br>
+
+            <button type="submit">Submit</button>
+        </form>
     </main>
     <script>
-        document.getElementById("postTypeSelector").addEventListener("change", (e) => {
-            const postType = e.target.value;
-            const postFormContainer = document.getElementById("postFormContainer");
+        // Handle form submission
+        async function handlePostFormSubmit(event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
 
-            if (postType === "eep") {
-                postFormContainer.innerHTML = `
-                    <h3>Create an EEP (Entry and Exit Points)</h3>
-                    <form id="eepForm">
-                        <input type="text" id="eepTicker" placeholder="Ticker (e.g., AAPL)" required />
-                        <input type="number" id="eepEntryPrice" placeholder="Entry Price (e.g., 150.00)" required />
-                        <input type="number" id="eepExitPrice" placeholder="Exit Price (e.g., 155.00)" required />
-                        <input type="date" id="eepDate" placeholder="Date" required />
-                        <textarea id="eepNotes" placeholder="Notes (optional)"></textarea>
-                        <button type="submit">Post EEP</button>
-                    </form>
-                `;
-                console.log("EEP form injected into postFormContainer"); // Debugging log
-            }
+            // Get form values
+            const ticker = document.getElementById("ticker").value;
+            const entryPrice = parseFloat(document.getElementById("entryPrice").value);
+            const exitPrice = parseFloat(document.getElementById("exitPrice").value);
+            const date = document.getElementById("date").value;
+            const notes = document.getElementById("notes").value;
 
-            console.log("Post type selected:", postType); // Debugging log
-        });
+            console.log("Form data:", { ticker, entryPrice, exitPrice, date, notes });
+
+            // Call the createPost function
+            await createPost(ticker, entryPrice, exitPrice, date, notes);
+
+            // Clear the form
+            document.getElementById("postForm").reset();
+            alert("Post created successfully!");
+        }
     </script>
 </body>
 </html>
